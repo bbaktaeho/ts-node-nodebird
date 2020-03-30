@@ -36,8 +36,12 @@
 
 ## sequelize
 
-- dfdf
--
+- npm i sequelize
+- npm i sequelize-cli
+- sequelize init
+- 맨 처음 만들어진 config 폴더에 config.json을 config.js 로 변경 후 작업 sequelize-cli 가 ts 를 인식 못함
+- sequelize db:create
+- 초기 작업이 끝나면 ts 로 변경
 
 process.env 에 대해서 알아보기
 index.d.ts 알아보기

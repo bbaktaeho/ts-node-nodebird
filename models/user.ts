@@ -1,8 +1,12 @@
+// 모델
+
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 
 class User extends Model {
+  // !는 반드시 존재
+  // readonly 바뀔 일이 없는 것 (직접 바꿀 일이 없다라는 것)
   public readonly id!: number;
   public nickname!: string;
   public userId!: string;
@@ -11,6 +15,7 @@ class User extends Model {
   public readonly updateAt!: Date;
 }
 
+// init(data:{},options:{}
 User.init(
   {
     nickname: {
