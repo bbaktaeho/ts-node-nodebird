@@ -15,7 +15,7 @@ class User extends Model {
   public readonly updateAt!: Date;
 }
 
-// init(data:{},options:{}
+// init(data:{},options:{})
 User.init(
   {
     nickname: {
@@ -32,6 +32,7 @@ User.init(
     }
   },
   {
+    // new Sequelize 연결
     sequelize,
     modelName: "User",
     tableName: "user",
