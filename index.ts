@@ -9,12 +9,23 @@ import * as dotenv from "dotenv";
 import * as passport from "passport";
 import * as hpp from "hpp";
 import * as helmet from "helmet";
+import { sequelize } from "./models";
 dotenv.config();
 
 const app: Application = express();
 const prod = process.env.NODE_ENV === "production";
 
 app.set("port", prod ? process.env.PORT : 3065);
+
+// force 가 true 이면 서버 재시작마다 테이블을 초기화시킴
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("db 연결 성공");
+  })
+  .catch((err: Error) => {
+    console.log("db 연결 에러 : ", err);
+  });
 
 if (prod) {
   app.use(hpp());

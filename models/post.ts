@@ -19,7 +19,7 @@ Post.init(
   {
     sequelize,
     modelName: "Post",
-    tableName: "Post",
+    tableName: "post",
     charset: "utf8mb4", // 이모티콘도 사용 가능하도록 함
     collate: "utf8mb4_general_ci"
   }
