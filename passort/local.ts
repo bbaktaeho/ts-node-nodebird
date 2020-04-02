@@ -7,6 +7,7 @@ import User from "../models/user";
 export default () => {
   passport.use(
     "local",
+    // strategy 에서 타이핑이 선언되어 있음
     new Strategy(
       {
         usernameField: "userId",
@@ -21,6 +22,7 @@ export default () => {
           }
           const result = await bcrypt.compare(password, user.password);
           if (result) return done(null, user);
+          return done(null, false, { message: "비밀번호 틀림" });
         } catch (err) {
           console.error(err);
           return done(err);

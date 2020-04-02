@@ -3,12 +3,13 @@ import { Request, Response, NextFunction } from "express";
 const router = express.Router();
 import User from "../models/user";
 import * as bcrypt from "bcrypt";
+import { isLoggedIn } from "./middleware";
 
-router.get("/", (req, res) => {
+router.get("/", isLoggedIn, (req, res) => {
   // 패스포트가 만들어준 녀석이 req.user
   // 기존 익스프레스를 확장 시켰음
   // 패스포트에서 Request 를 보면 user를 빈 객체로 해둠
-  const user = req.user.toJSON();
+  const user = req.user!.toJSON() as User;
   delete user.password;
   return res.json(user);
 });

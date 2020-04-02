@@ -14,6 +14,7 @@ export default () => {
       const user = await User.findOne({
         where: { id }
       });
+      if (!user) return done(new Error("no user"));
       return done(null, user); // req.user
     } catch (err) {
       console.error(err);
