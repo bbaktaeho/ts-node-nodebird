@@ -8,3 +8,7 @@ import \* as ... from 은 export default 가 없을 때 이렇게 해야함
 esModuleInterop : true 라면 \* as 안해도 됨
 익스프레스는 express-serve-static-core 의 코어를 임포트해와서 타이핑을 함
 타입스크립트를 자바스크립트를 변경 후 노드가 실행을 시킴, ts-node 를 사용해서 바로 실행시키게 해보자
+배포용에선 tsc 를 활용해서 미리 자바스크립트로 바꿔놓고 배포함
+tsc 는 tsconfig.json 설정을 보고 동작함
+tsc --traceresolution 은 타이핑을 찾는 순서를 로그로 찍어줌
+@types/... 모듈들을 devdepend?
