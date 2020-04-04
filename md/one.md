@@ -20,4 +20,4 @@ process.env는 타입 추론이 안됨
 namespace와 interface 는 직접 확장할 수 있음 -> declaration merging!
 tsc 는 모듈에 있는 모든 ts 파일을 모두 컴파일 해서 타이핑을 찾는다. 근데 강제적으로 tscconfig.json 에서 files 에 경로를 적으면 그 파일만 컴파일한다. 그 파일에 임포트 하는 애들까지 포함해서 컴파일한다.
 tsconfig.json 에 typeRoot 가 없다면 노드 모듈에 있는 tpyes의 모든 타입들을 가져옴. typeRoot 를 지정했다해서 모듈에 있는 타입을 안가져오는 것은 아니고 임포트 되어있으면 가져옴. 여기서 compilerOptions.typeRoot 와 files의 차이는 모든 ts 파일에 대해서 컴파일을 하냐 마냐고 typeRoot는 타이핑을 가져오냐 마냐를 결정한다.
-go to definition을 사용하자~
+go to definition을 사용하자~ -> 충돌 문제를 확인할 수 있다. 타입스크립트에서 타입 충돌이 발생하면 어떤걸 써야할지 모르기 때문에 확인해볼 필요가 있다.
