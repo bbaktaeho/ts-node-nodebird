@@ -2,18 +2,21 @@ import * as express from "express";
 import * as bcrypt from "bcrypt";
 import { isLoggedIn } from "./middleware";
 import User from "../models/user";
-
 const router = express.Router();
 
-router.get("/", isLoggedIn, (req, res) => {
+router.get("/", isLoggedIn, (req: Express.Request, res) => {
+  // req.user 가 있는지 없는지 모르겠다..!
+  // 타입스크립트가 타입 추론은 해줄순 있지만 로직에 대한 이해는 못함
+  // toJSON 은 리턴이 오브젝트이므로 우리가 강제로 형변환을 해야함 as <타입>
   const user = req.user!.toJSON() as User;
   delete user.password;
   return res.json(user);
 });
 
+// 회원가입
 router.post("/", async (req, res, next) => {
   try {
-    // 가입 되어 있는지 확인
+    // 가입 되어 있는지 확인 (중복 체크)
     const exUser = await User.findOne({
       where: {
         userId: req.body.userId,
