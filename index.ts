@@ -10,6 +10,8 @@ import * as hpp from "hpp";
 import * as helmet from "helmet";
 import * as bodyParser from "body-parser";
 
+import { sequelize } from "./models";
+
 dotenv.config();
 
 const app: Application = express();
@@ -17,6 +19,15 @@ const app: Application = express();
 const prod: boolean = process.env.NODE_ENV === "production";
 
 app.set("port", prod ? process.env.PORßT : 3065);
+
+sequelize
+  .sync({ force: false })
+  .then(() => {
+    console.log("db connected!");
+  })
+  .catch((err: Error) => {
+    console.error(err);
+  });
 
 if (prod) {
   app.use(hpp());

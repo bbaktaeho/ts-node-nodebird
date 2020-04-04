@@ -7,8 +7,8 @@ class User extends Model {
   public nickname!: string;
   public userId!: string;
   public password!: string;
-  public readonly createAt!: Date;
-  public readonly updateAt!: Date;
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
 }
 
 User.init(
