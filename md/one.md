@@ -15,3 +15,5 @@ tsc --traceresolution 은 타이핑을 찾는 순서를 로그로 찍어줌
 sequelize-cli 는 sequelize 명령어를 사용하기 위한 모듈
 sequelize init 하면 모델, 씨더, 컨피그 폴더가 생성되고 기본적인 코드가 작성되있다
 sequelize 는 내부적으로 타입을 지원하기 때문에 타입 설치를 안해줘도 된다
+순환 참조시 두 모듈 중 하나가 빈 객체로 처리되어 문제가 발생
+process.env는 타입 추론이 안됨
