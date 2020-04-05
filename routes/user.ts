@@ -143,7 +143,7 @@ router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
     });
     if (!user) return res.status(404).send("no user");
     const follower = await user.getFollowings({
-      attri,
+      attribute: ["id", "nickname"],
     });
   } catch (err) {
     console.error(err);
