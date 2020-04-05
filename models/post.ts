@@ -4,11 +4,14 @@ import {
   BelongsToManyAddAssociationsMixin,
   HasManyAddAssociationsMixin,
   HasManyAddAssociationMixin,
+  BelongsToManyAddAssociationMixin,
+  BelongsToManyRemoveAssociationMixin,
 } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
 import Hashtag from "./hashtag";
 import Image from "./image";
+import User from "./user";
 
 // ! 는 항상 있다라는 말
 class Post extends Model {
@@ -20,6 +23,8 @@ class Post extends Model {
   public addHashtags!: BelongsToManyAddAssociationsMixin<Hashtag, number>;
   public addImages!: HasManyAddAssociationsMixin<Image, number>;
   public addImage!: HasManyAddAssociationMixin<Image, number>;
+  public addLiker!: BelongsToManyAddAssociationMixin<User, number>;
+  public removeLiker!: BelongsToManyRemoveAssociationMixin<User, number>;
 }
 
 Post.init(

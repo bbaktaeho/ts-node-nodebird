@@ -9,6 +9,7 @@ import Post from "../models/post";
 import Image from "../models/image";
 import * as BlueBird from "bluebird";
 import User from "../models/user";
+import Comment from "../models/comment";
 
 const router = express.Router();
 
@@ -102,5 +103,110 @@ router.get("/:id", async (req, res, next) => {
     return next(err);
   }
 });
+
+router.delete("/:id", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    await Post.destroy({ where: { id: req.params.id } });
+    return res.send(req.params.id);
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.get("/:id/comments", async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    const comments = await Comment.findAll({
+      where: {
+        PostId: req.params.id,
+      },
+      order: [["createdAt", "ASC"]],
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nickname"],
+        },
+      ],
+    });
+    return res.json(comments);
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.post("/:id/comment", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    const newComment = await Comment.create({
+      PostId: post.id,
+      UserId: req.params.id,
+      content: req.body.content,
+    });
+    const comment = await Comment.findOne({
+      where: {
+        id: newComment.id,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["id", "nickname"],
+        },
+      ],
+    });
+    return res.json(comment);
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.post("/:id/like", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    await post.addLiker(req.user!.id);
+    return res.json({ userId: req.user!.id });
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.delete("/:id/like", isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+    });
+    if (!post) {
+      return res.status(404).send("포스트가 존재하지 않습니다.");
+    }
+    await post.removeLiker(req.user!.id);
+    return res.json({ userId: req.user!.id });
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.post("/:id/retweet", isLoggedIn, async (req, res, next) => {});
 
 export default router;
