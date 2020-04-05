@@ -59,7 +59,11 @@ User.init(
 );
 
 export const associate = (db: dbType) => {
+  db.User.hasMany(db.Comment); //사용자는 댓글을 여려개쓸수있음
   db.User.hasMany(db.Post, { as: "Posts" });
+
+  // 사용자는 개시글에다가 좋아요를 누를 수 있음 (as 이름대로 함수를 만들어야함)
+  db.User.belongsToMany(db.Post, { through: "Like", as: "Liked" });
   db.User.belongsToMany(db.User, {
     // as 가 가리키는 것과 foreingkey 는 서로 반대되는 관계
     through: "Follow",

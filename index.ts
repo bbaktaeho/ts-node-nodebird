@@ -12,6 +12,9 @@ import * as bodyParser from "body-parser";
 
 import { sequelize } from "./models";
 
+import userRouter from "./routes/user";
+import postRouter from "./routes/post";
+
 dotenv.config();
 
 const app: Application = express();
@@ -66,6 +69,8 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/user", userRouter);
+app.use("/post", postRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("정상 동작");

@@ -4,3 +4,5 @@
 - 확장한 인터페이스를 어디다가 두냐? 한 번만 쓰이는 인터페이스는 사용되는 곳 코드 상위에 쓰고 만약 재사용 될 때 ./types 로 옮기고 export 를 붙여 수출한다.
 - sequelize Model hasMany, belongsToMany 알아보기
 - sequelize Model BelongsToManyGetAssociationsMixin
+- sequelize 는 프로미스 타입을 BlueBird<> 로 사용한다.
+- 공식 문서의 모듈 레졸루션대로 타이핑 찾는 순서를 보는 것이 좋음
