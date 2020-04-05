@@ -6,3 +6,5 @@
 - sequelize Model BelongsToManyGetAssociationsMixin
 - sequelize 는 프로미스 타입을 BlueBird<> 로 사용한다.
 - 공식 문서의 모듈 레졸루션대로 타이핑 찾는 순서를 보는 것이 좋음
+- sequelize Op 알아보기
+-

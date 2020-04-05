@@ -29,6 +29,7 @@ const upload = multer({
   limits: { fileSize: 20 * 1024 * 1024 },
 });
 
+// 개시글 작성
 router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
   try {
     // 해시태그 정규 표현식
@@ -72,6 +73,30 @@ router.post("/", isLoggedIn, upload.none(), async (req, res, next) => {
       ],
     });
     return res.json(fullPost);
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.post("/images", upload.array("image"), (req, res, next) => {
+  console.log(req.files);
+  // req.files 이 객체 또는 배열임.
+  // multerS3 에 로케이션이 들어있음
+  res.json((req.files as Express.MulterS3.File[]).map((v) => v.location));
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.id },
+      include: [
+        { model: User, attributes: ["id", "nickname"] },
+        { model: Image },
+        { model: User, as: "Likers", attributes: ["id"] },
+      ],
+    });
+    return res.json(post);
   } catch (err) {
     console.error(err);
     return next(err);
