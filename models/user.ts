@@ -1,6 +1,7 @@
 import { Model, DataTypes } from "sequelize";
 import { sequelize } from "./sequelize";
 import { dbType } from "./index";
+import Post from "./post";
 
 class User extends Model {
   public readonly id!: number;
@@ -9,6 +10,10 @@ class User extends Model {
   public password!: string;
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
+
+  public readonly Posts?: Post[];
+  public readonly Followings?: User[];
+  public readonly Followers?: User[];
 }
 
 User.init(

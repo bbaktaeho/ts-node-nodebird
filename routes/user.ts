@@ -6,6 +6,13 @@ import * as passport from "passport";
 import Post from "../models/post";
 const router = express.Router();
 
+// 기존 User 모델 확장
+interface IUser extends User {
+  PostCount: number;
+  FollowingCount: number;
+  FollowerCount: number;
+}
+
 router.get("/", isLoggedIn, (req, res) => {
   // req.user 가 있는지 없는지 모르겠다..!
   // 타입스크립트가 타입 추론은 해줄순 있지만 로직에 대한 이해는 못함
@@ -81,7 +88,7 @@ router.post("/login", isNotLoggedIn, (req, res, next) => {
             ],
             attributes: {
               // 비밀번호만 지우고 가져오라
-              exclude: ["password"],
+              exclude: ["password"], // 내정보 가져올 때는 패스워드만 제거하고
             },
           });
           return res.json(fullUser);
@@ -99,4 +106,47 @@ router.post("/logout", isLoggedIn, (req, res) => {
   req.session!.destroy((err) => {
     res.send("logout 성공");
   });
+});
+
+router.get("/:id", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: parseInt(req.params.id, 10) },
+      include: [
+        { model: Post, as: "Posts", attributes: ["id"] },
+        { model: User, as: "Followings", attributes: ["id"] },
+        { model: User, as: "Followers", attributes: ["id"] },
+      ],
+      attributes: ["id", "nickname"], // 사용자 정보를 가져올 때는 아이디랑 닉네임만 가져오게
+    });
+    if (!user) {
+      return res.status(404).send("no user");
+    }
+    const jsonUser = user.toJSON() as IUser;
+    jsonUser.PostCount = jsonUser.Posts ? jsonUser.Posts.length : 0;
+    jsonUser.FollowingCount = jsonUser.Followings
+      ? jsonUser.Followings.length
+      : 0;
+    jsonUser.FollowerCount = jsonUser.Followers ? jsonUser.Followers.length : 0;
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
+});
+
+router.get("/:id/followings", isLoggedIn, async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: {
+        id: parseInt(req.params.id, 10) || (req.user && req.user.id) || 0,
+      },
+    });
+    if (!user) return res.status(404).send("no user");
+    const follower = await user.getFollowings({
+      attri,
+    });
+  } catch (err) {
+    console.error(err);
+    return next(err);
+  }
 });
