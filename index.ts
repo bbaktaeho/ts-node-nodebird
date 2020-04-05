@@ -12,8 +12,11 @@ import * as bodyParser from "body-parser";
 
 import { sequelize } from "./models";
 
+// 라우터
 import userRouter from "./routes/user";
 import postRouter from "./routes/post";
+import postsRouter from "./routes/posts";
+import hashtagRouter from "./routes/hashtag";
 
 dotenv.config();
 
@@ -71,6 +74,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/user", userRouter);
 app.use("/post", postRouter);
+app.use("/hashtag", hashtagRouter);
+app.use("/posts", postsRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("정상 동작");
