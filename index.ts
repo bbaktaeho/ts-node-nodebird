@@ -24,7 +24,7 @@ const app: Application = express();
 
 const prod: boolean = process.env.NODE_ENV === "production";
 
-app.set("port", prod ? process.env.PORßT : 3065);
+app.set("port", prod ? process.env.PORT : 3065);
 
 sequelize
   .sync({ force: false })

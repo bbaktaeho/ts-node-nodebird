@@ -26,7 +26,6 @@
     "@types/multer-s3": "2.7.7",
     "@types/node": "13.11.0",
     "@types/passport": "1.0.3",
-    "@types/passport-local": "1.0.33",
     "aws-sdk": "2.653.0",
     "bcrypt": "4.0.1",
     "bluebird": "3.7.2",
