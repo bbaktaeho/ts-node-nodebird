@@ -10,6 +10,8 @@ export default () => {
       {
         usernameField: "userId",
         passwordField: "password",
+        session: false,
+        passReqToCallback: false,
       },
       async (userId, password, done) => {
         try {
